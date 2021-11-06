@@ -27,6 +27,7 @@ var specialRepresentatives = []string{
 var badRepresentatives = []string{
 	"ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo",
 	"ban_1bananobh5rat99qfgt1ptpieie5swmoth87thi74qgbfrij7dcgjiij94xr",
+	"ban_1on1ybanskzzsqize1477wximtkdzrftmxqtajtwh4p4tg1w6awn1hq677cp",
 }
 
 func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative string, unopened bool) (banano.Balance, block.Hash, banano.Balance, error) {
