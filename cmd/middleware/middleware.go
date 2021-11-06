@@ -23,6 +23,7 @@ const (
 
 	VERIFY_HCAPTCHA_FLAG = true
 	CUSTOM_IP_FLAG       = false
+	IP_INTEL_FLAG        = false
 	CLAIM_INTERVAL       = 15
 )
 
@@ -146,7 +147,7 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if strings.HasPrefix(claimReq.IP, "51.79") || strings.HasPrefix(claimReq.IP, "128.90") {
+		if strings.HasPrefix(claimReq.IP, "51.79") || strings.HasPrefix(claimReq.IP, "128.90") || strings.HasPrefix(claimReq.IP, "31.6") {
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(Response{Message: "Sorry! BanBucket doesn't support faucet claims from your region at this time due to abuse."})
 			return
@@ -164,7 +165,6 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 			json.NewEncoder(w).Encode(Response{Message: "Something went wrong..."})
 			return
 		}
-
 		if isVPN {
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(Response{Message: "Sorry! BanBucket doesn't support faucet claims from a VPN at this time."})
@@ -202,6 +202,18 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 		diff := time.Since(lastClaim)
 
 		if diff.Hours() >= CLAIM_INTERVAL {
+
+			// This is called here to reduce the # of API calls (limit of 500 daily)
+			if IP_INTEL_FLAG {
+				if isMaliciousIP := IsMaliciousIP(claimReq.IP); isMaliciousIP {
+					// TODO: Save IP to Blacklist
+
+					w.WriteHeader(http.StatusBadRequest)
+					json.NewEncoder(w).Encode(Response{Message: "Your IP is deemed to be malicious, sorry for the inconvenience"})
+					return
+				}
+			}
+
 			var err error
 
 			hash, amountGiven, err := banano.SendBanano(claimReq.BananoAddr, app)

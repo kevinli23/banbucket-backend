@@ -189,3 +189,31 @@ func isTorIP(clientIP string) bool {
 
 	return false
 }
+
+func IsMaliciousIP(clientIP string) bool {
+	requestURL := fmt.Sprintf("https://check.getipintel.net/check.php?ip=%s&contact=aiglette_carbone@aleeas.com&flags=m&format=json", clientIP)
+
+	response, err := http.Get(requestURL)
+	if err != nil {
+		return false
+	}
+
+	defer response.Body.Close()
+
+	responseBodyBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return false
+	}
+
+	var res models.GetIPIntelResponse
+	if err := json.Unmarshal(responseBodyBytes, &res); err != nil {
+		return false
+	}
+
+	result, err := strconv.ParseFloat(res.Result, 64)
+	if err != nil {
+		return false
+	}
+
+	return result > 0.99
+}
