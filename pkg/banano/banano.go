@@ -25,7 +25,7 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 	}
 
 	destBalance, _, destRepresentative, err := GetAccountInfo(dest)
-	unopened := destBalance == "0" || err != nil
+	unopened := destBalance == "0" || err != nil || !GetYellowSpyGlassAccountOpened(dest)
 
 	// Remove later to enable transactions for unopened accounts
 	if unopened {

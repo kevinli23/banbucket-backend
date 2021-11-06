@@ -198,3 +198,26 @@ func GetCoinGeckoPrice() (float64, float64, error) {
 
 	return res.Banano.USD, res.Banano.Change, nil
 }
+
+// Return true for now as this is a test measure/check
+func GetYellowSpyGlassAccountOpened(addr string) bool {
+	yellowSpyGlassURL := fmt.Sprintf("https://api.yellowspyglass.com/yellowspyglass/account-overview/%s", addr)
+	response, err := http.Get(yellowSpyGlassURL)
+	if err != nil {
+		return true
+	}
+
+	defer response.Body.Close()
+
+	responseBodyBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return true
+	}
+
+	var res YellowSpyGlassAccountOverviewResponse
+	if err := json.Unmarshal(responseBodyBytes, &res); err != nil {
+		return true
+	}
+
+	return res.Opened
+}

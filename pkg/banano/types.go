@@ -111,3 +111,7 @@ type CoinGeckoPrice struct {
 type GetCoinGeckoPriceResponse struct {
 	Banano CoinGeckoPrice `json:"banano"`
 }
+
+type YellowSpyGlassAccountOverviewResponse struct {
+	Opened bool `json:"opened"`
+}
