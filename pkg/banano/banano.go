@@ -3,7 +3,6 @@ package banano
 import (
 	"banfaucetservice/pkg/app"
 	"banfaucetservice/pkg/logger"
-	"fmt"
 	"strconv"
 
 	"github.com/BananoCoin/gobanano/nano"
@@ -28,9 +27,9 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 	unopened := destBalance == "0" || err != nil || !GetYellowSpyGlassAccountOpened(dest)
 
 	// Remove later to enable transactions for unopened accounts
-	if unopened {
-		return "", nano.Balance{}, fmt.Errorf("Sorry, BanBucket is unavailable to unopened accounts due to robot monkeys!")
-	}
+	// if unopened {
+	// 	return "", nano.Balance{}, fmt.Errorf("Sorry, BanBucket is unavailable to unopened accounts due to robot monkeys!")
+	// }
 
 	app.Lock.Lock()
 
