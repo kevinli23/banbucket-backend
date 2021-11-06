@@ -150,15 +150,16 @@ func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error
 	return res.Hash, nil
 }
 
-func GetAccountInfo(addr string) (string, string, error) {
+func GetAccountInfo(addr string) (string, string, string, error) {
 	requestBody, _ := json.Marshal(map[string]string{
-		"action":  "account_info",
-		"account": addr,
+		"action":         "account_info",
+		"account":        addr,
+		"representative": "true",
 	})
 
 	response, err := http.Post(API_URL, "application/json", bytes.NewBuffer(requestBody))
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
 	defer response.Body.Close()
@@ -166,7 +167,7 @@ func GetAccountInfo(addr string) (string, string, error) {
 	responseBodyBytes, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
 	defer response.Body.Close()
@@ -174,10 +175,10 @@ func GetAccountInfo(addr string) (string, string, error) {
 	var res AccountInfo
 
 	if err := json.Unmarshal(responseBodyBytes, &res); err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
 
-	return res.Balance, res.Frontier, nil
+	return res.Balance, res.Frontier, res.Representative, nil
 }
 
 func GetAccountPendings(addr string) ([]string, error) {

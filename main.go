@@ -26,7 +26,7 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	balance, _, err := banano.GetAccountInfo(app.FaucetAddress.String())
+	balance, _, _, err := banano.GetAccountInfo(app.FaucetAddress.String())
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -67,7 +67,6 @@ func main() {
 				logger.Info.Println("Nothing was received")
 			}
 		})
-
 		s.Every(5).Minute().Do(func() {
 			price, change, err := banano.GetCoinGeckoPrice()
 			if err != nil {

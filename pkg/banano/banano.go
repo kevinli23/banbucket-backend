@@ -24,7 +24,7 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 		return "", nano.Balance{}, err
 	}
 
-	destBalance, _, err := GetAccountInfo(dest)
+	destBalance, _, destRepresentative, err := GetAccountInfo(dest)
 	unopened := destBalance == "0" || err != nil
 
 	// Remove later to enable transactions for unopened accounts
@@ -34,7 +34,7 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	app.Lock.Lock()
 
-	newBalance, frontier, amountGiven, err := GetNewBalanceAndFrontier(address.String(), dest, unopened)
+	newBalance, frontier, amountGiven, err := GetNewBalanceAndFrontier(address.String(), dest, destRepresentative, unopened)
 	if err != nil {
 		return "", nano.Balance{}, err
 	}
@@ -103,7 +103,7 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 
 	app.Lock.Lock()
 
-	balance, frontier, err := GetAccountInfo(addr)
+	balance, frontier, _, err := GetAccountInfo(addr)
 	if err != nil {
 		return "", err
 	}

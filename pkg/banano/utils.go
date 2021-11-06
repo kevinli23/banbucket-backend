@@ -12,7 +12,6 @@ import (
 	banano "github.com/BananoCoin/gobanano/nano"
 	"github.com/BananoCoin/gobanano/nano/block"
 	"github.com/BananoCoin/gobanano/nano/wallet"
-	"github.com/pkg/errors"
 )
 
 const AMOUNT_TO_SEND = "3000000000000000000000000000"
@@ -30,15 +29,10 @@ var badRepresentatives = []string{
 	"ban_1bananobh5rat99qfgt1ptpieie5swmoth87thi74qgbfrij7dcgjiij94xr",
 }
 
-func GetNewBalanceAndFrontier(addr string, dest string, unopened bool) (banano.Balance, block.Hash, banano.Balance, error) {
-	balance, frontier, err := GetAccountInfo(addr)
+func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative string, unopened bool) (banano.Balance, block.Hash, banano.Balance, error) {
+	balance, frontier, _, err := GetAccountInfo(addr)
 	if err != nil {
 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
-	}
-
-	destRepresentative, err := GetAccountRepresentative(dest)
-	if err != nil {
-		return banano.Balance{}, block.Hash{}, banano.Balance{}, errors.Wrapf(err, "Error retrieving account representative")
 	}
 
 	isSpecialRepresentative := false

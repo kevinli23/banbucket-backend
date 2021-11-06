@@ -14,8 +14,9 @@ type AccountHistoryResponse struct {
 }
 
 type AccountInfo struct {
-	Frontier string `json:"frontier"`
-	Balance  string `json:"balance"`
+	Frontier       string `json:"frontier"`
+	Balance        string `json:"balance"`
+	Representative string `json:"representative"`
 }
 
 type AccountRepresentativeResponse struct {
