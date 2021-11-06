@@ -146,9 +146,9 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if strings.HasPrefix(claimReq.IP, "51.79") {
+		if strings.HasPrefix(claimReq.IP, "51.79") || strings.HasPrefix(claimReq.IP, "128.90") {
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(Response{Message: "Sorry! BanBucket doesn't support faucet claims from your region at this time."})
+			json.NewEncoder(w).Encode(Response{Message: "Sorry! BanBucket doesn't support faucet claims from your region at this time due to abuse."})
 			return
 		}
 
