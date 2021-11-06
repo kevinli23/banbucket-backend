@@ -78,7 +78,7 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 		}
 	}
 
-	if unopened {
+	if unopened || destRepresentative == "ban_1on1ybanskzzsqize1477wximtkdzrftmxqtajtwh4p4tg1w6awn1hq677cp" {
 		amount, err = banano.ParseBalance(SUPER_REDUCED, "raw")
 		if err != nil {
 			return banano.Balance{}, block.Hash{}, banano.Balance{}, err
