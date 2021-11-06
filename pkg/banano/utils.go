@@ -60,21 +60,21 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
 	}
 
-	for _, rep := range badRepresentatives {
-		if rep == destRepresentative {
-			amount, err = banano.ParseBalance(REDUCED_AMOUNT, "raw")
-			if err != nil {
-				return banano.Balance{}, block.Hash{}, banano.Balance{}, err
-			}
-		}
-	}
-
 	if isSpecialRepresentative {
 		roll := rand.Intn(10)
 		logger.Info.Printf("%s has a special representative and rolled %d\n", dest, roll)
 
 		if roll <= 2 {
 			amount = amount.Add(amount)
+		}
+	}
+
+	for _, rep := range badRepresentatives {
+		if rep == destRepresentative {
+			amount, err = banano.ParseBalance(REDUCED_AMOUNT, "raw")
+			if err != nil {
+				return banano.Balance{}, block.Hash{}, banano.Balance{}, err
+			}
 		}
 	}
 
