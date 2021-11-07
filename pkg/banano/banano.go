@@ -39,12 +39,12 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 		return "", nano.Balance{}, err
 	}
 
-	work, err := BananoGenerateWork(frontier.String())
-	if err != nil {
-		logger.Error.Printf("Failed to generate work: %x", err)
-		app.Lock.Unlock()
-		return "", nano.Balance{}, err
-	}
+	// work, err := BananoGenerateWork(frontier.String())
+	// if err != nil {
+	// 	logger.Error.Printf("Failed to generate work: %x", err)
+	// 	app.Lock.Unlock()
+	// 	return "", nano.Balance{}, err
+	// }
 
 	sendBlock := block.StateBlock{
 		Address:        address,
@@ -52,7 +52,7 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 		Balance:        newBalance,
 		PreviousHash:   frontier,
 		Link:           *destPubKey,
-		Work:           block.Work(work),
+		// Work:           block.Work(work),
 	}
 
 	sendBlock.Signature = account.Sign(sendBlock.Hash())
@@ -67,10 +67,10 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	app.Lock.Unlock()
 
-	go func() {
-		logger.Info.Printf("Starting computation of work for next hash: %s\n", newHash)
-		BananoGenerateWork(newHash)
-	}()
+	// go func() {
+	// 	logger.Info.Printf("Starting computation of work for next hash: %s\n", newHash)
+	// 	BananoGenerateWork(newHash)
+	// }()
 
 	app.Amount = newBalance
 

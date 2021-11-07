@@ -67,7 +67,7 @@ func GetAccountRepresentative(addr string) (string, error) {
 }
 
 func BananoGenerateWork(hash string) (uint64, error) {
-	logger.Info.Printf("Started work generation for %s\n", hash)
+	logger.Info.Printf("Started work generation for %s\n", strings.ToUpper(hash))
 	requestBody, _ := json.Marshal(map[string]string{
 		"action": "work_generate",
 		"hash":   strings.ToUpper(hash),
