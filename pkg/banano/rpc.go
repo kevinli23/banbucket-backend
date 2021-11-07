@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/BananoCoin/gobanano/nano/block"
@@ -69,7 +70,7 @@ func BananoGenerateWork(hash string) (uint64, error) {
 	logger.Info.Printf("Started work generation for %s\n", hash)
 	requestBody, _ := json.Marshal(map[string]string{
 		"action": "work_generate",
-		"hash":   hash,
+		"hash":   strings.ToUpper(hash),
 	})
 
 	response, err := http.Post(API_URL, "application/json", bytes.NewBuffer(requestBody))
