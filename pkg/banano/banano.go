@@ -38,7 +38,9 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 		return "", nano.Balance{}, err
 	}
 
+	logger.Info.Printf("Started work generation for %s\n", dest)
 	work, _ := BananoGenerateWork(frontier.String())
+	logger.Info.Printf("Finished work generation for %s\n", dest)
 
 	sendBlock := block.StateBlock{
 		Address:        address,
