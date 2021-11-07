@@ -35,6 +35,7 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	newBalance, frontier, amountGiven, err := GetNewBalanceAndFrontier(address.String(), dest, destRepresentative, unopened)
 	if err != nil {
+		app.Lock.Unlock()
 		return "", nano.Balance{}, err
 	}
 
@@ -53,8 +54,11 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	sendBlock.Signature = account.Sign(sendBlock.Hash())
 
+	logger.Info.Printf("Begin sending for %s\n", dest)
 	newHash, err := BananoFaucetSend(sendBlock)
+	logger.Info.Printf("Finish sending for %s\n", dest)
 	if err != nil {
+		app.Lock.Unlock()
 		return "", nano.Balance{}, err
 	}
 

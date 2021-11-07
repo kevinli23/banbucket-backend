@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/BananoCoin/gobanano/nano/block"
 )
@@ -122,7 +123,11 @@ func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error
 		},
 	})
 
-	response, err := http.Post(API_URL, "application/json", bytes.NewBuffer(requestBody))
+	client := http.Client{
+		Timeout: 10 * time.Second,
+	}
+
+	response, err := client.Post(API_URL, "application/json", bytes.NewBuffer(requestBody))
 	if err != nil {
 		return "", err
 	}
