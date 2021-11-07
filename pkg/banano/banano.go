@@ -156,5 +156,9 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 
 	app.Amount = newBalance
 
+	go func() {
+		BananoGenerateWork(newHash)
+	}()
+
 	return newHash, nil
 }
