@@ -145,7 +145,7 @@ func GetDestinationHash(addr string) (*block.Hash, error) {
 		return nil, err
 	}
 
-	destPK, err := GetAccountKey(receieve.String())
+	destPK, err := GenPublicKey(receieve.String())
 	if err != nil {
 		return nil, err
 	}
@@ -221,4 +221,29 @@ func GetYellowSpyGlassAccountOpened(addr string) bool {
 	}
 
 	return res.Opened
+}
+
+func GenPublicKey(acc string) (string, error) {
+	accountCrop := acc[4:64]
+
+	keyUint4 := arrayCrop(uint5ToUint4(stringToUint5(accountCrop[0:52])))
+	hashUint4 := uint5ToUint4(stringToUint5(accountCrop[52:60]))
+
+	keyArray := uint4ToUint8(keyUint4)
+	hash, err := getBlake2BHash(5, keyArray)
+	if err != nil {
+		return "", err
+	}
+	hash = reverseuint8(hash)
+
+	left := hashUint4
+	right := uint8ToUint4(hash)
+
+	for i := 0; i < len(left); i++ {
+		if left[i] != right[i] {
+			return "", fmt.Errorf("failed to compute public key checksum for %s", acc)
+		}
+	}
+
+	return uint4ToHex(keyUint4), nil
 }
