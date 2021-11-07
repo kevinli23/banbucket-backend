@@ -67,6 +67,11 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	app.Lock.Unlock()
 
+	go func() {
+		logger.Info.Printf("Starting computation of work for next hash: %s\n", newHash)
+		BananoGenerateWork(newHash)
+	}()
+
 	app.Amount = newBalance
 
 	return newHash, amountGiven, nil
@@ -155,10 +160,6 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 	app.Lock.Unlock()
 
 	app.Amount = newBalance
-
-	go func() {
-		BananoGenerateWork(newHash)
-	}()
 
 	return newHash, nil
 }
