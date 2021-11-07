@@ -125,6 +125,7 @@ func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error
 			Work:           sBlock.Work.String(),
 			Signature:      sBlock.Signature.String(),
 		},
+		DoWork: "true",
 	})
 
 	client := http.Client{
