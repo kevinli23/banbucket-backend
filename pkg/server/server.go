@@ -37,8 +37,8 @@ func (s *Server) Start() error {
 		return errors.New("Server missing handler")
 	}
 
-	s.srv.WriteTimeout = 15 * time.Second
-	s.srv.ReadTimeout = 15 * time.Second
+	s.srv.WriteTimeout = 35 * time.Second
+	s.srv.ReadTimeout = 35 * time.Second
 
 	return s.srv.ListenAndServe()
 }

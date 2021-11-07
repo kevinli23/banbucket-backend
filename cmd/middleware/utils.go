@@ -217,3 +217,7 @@ func IsMaliciousIP(clientIP string) bool {
 
 	return result > 0.99
 }
+
+// func getISP(clientIP string) string {
+
+// }

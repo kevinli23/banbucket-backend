@@ -18,7 +18,7 @@ const AMOUNT_TO_SEND = "3000000000000000000000000000"
 const REDUCED_AMOUNT = "1000000000000000000000000000"
 const SUPER_REDUCED = "100000000000000000000000000"
 const PUBLIC_KEY = "4438BE58D6D6142F47F1F80C7A2EC050BAAAFE81024B68ABE720D67DB2162020"
-const API_URL = "https://api-beta.banano.cc"
+const API_URL = "https://vault.banano.cc/api/node-api"
 
 var specialRepresentatives = []string{
 	"ban_19potasho7ozny8r1drz3u3hb3r97fw4ndm4hegdsdzzns1c3nobdastcgaa",
