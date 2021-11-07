@@ -122,8 +122,8 @@ func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error
 			Representative: sBlock.Representative.String(),
 			Balance:        sBlock.Balance.BigInt().String(),
 			Link:           sBlock.Link.String(),
-			Work:           sBlock.Work.String(),
-			Signature:      sBlock.Signature.String(),
+			// Work:           sBlock.Work.String(),
+			Signature: sBlock.Signature.String(),
 		},
 		DoWork: true,
 	})
