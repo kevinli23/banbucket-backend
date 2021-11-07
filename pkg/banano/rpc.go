@@ -1,6 +1,7 @@
 package banano
 
 import (
+	"banfaucetservice/pkg/logger"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -65,6 +66,7 @@ func GetAccountRepresentative(addr string) (string, error) {
 }
 
 func BananoGenerateWork(hash string) (uint64, error) {
+	logger.Info.Printf("Started work generation for %s\n", hash)
 	requestBody, _ := json.Marshal(map[string]string{
 		"action": "work_generate",
 		"hash":   hash,
@@ -94,6 +96,7 @@ func BananoGenerateWork(hash string) (uint64, error) {
 		return 0, err
 	}
 
+	logger.Info.Printf("Finished work generation for %s\n", hash)
 	return work, nil
 }
 
