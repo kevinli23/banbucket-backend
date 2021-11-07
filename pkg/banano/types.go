@@ -66,7 +66,7 @@ type SendRequest struct {
 	JsonBlock string           `json:"json_block"`
 	Subtype   string           `json:"subtype"`
 	Block     SendRequestBlock `json:"block"`
-	DoWork    string           `json:"do_work"`
+	DoWork    bool             `json:"do_work"`
 }
 
 type AccountKeyRequest struct {
