@@ -39,9 +39,12 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 		return "", nano.Balance{}, err
 	}
 
-	logger.Info.Printf("Started work generation for %s\n", dest)
-	work, _ := BananoGenerateWork(frontier.String())
-	logger.Info.Printf("Finished work generation for %s\n", dest)
+	work, err := BananoGenerateWork(frontier.String())
+	if err != nil {
+		logger.Error.Printf("Failed to generate work: %x", err)
+		app.Lock.Unlock()
+		return "", nano.Balance{}, err
+	}
 
 	sendBlock := block.StateBlock{
 		Address:        address,
@@ -56,8 +59,8 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 
 	logger.Info.Printf("Begin sending for %s\n", dest)
 	newHash, err := BananoFaucetSend(sendBlock)
-	logger.Info.Printf("Finish sending for %s\n", dest)
 	if err != nil {
+		logger.Error.Printf("Failed to send: %x", err)
 		app.Lock.Unlock()
 		return "", nano.Balance{}, err
 	}
