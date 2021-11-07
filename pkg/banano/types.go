@@ -57,7 +57,7 @@ type SendRequestBlock struct {
 	Representative string `json:"representative"`
 	Balance        string `json:"balance"`
 	Link           string `json:"link"`
-	Work           string `json:"work"`
+	Work           string `json:"work,omitempty"`
 	Signature      string `json:"signature"`
 }
 
