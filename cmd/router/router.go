@@ -1,6 +1,7 @@
 package router
 
 import (
+	"banfaucetservice/cmd/handlers"
 	"banfaucetservice/cmd/middleware"
 	"banfaucetservice/pkg/app"
 	"net/http"
@@ -19,10 +20,10 @@ func Get(app *app.App) *mux.Router {
 	r.Use(nrgorilla.Middleware(app.NewRelicApp))
 	r.Use(middleware.CORSMiddleware)
 
-	r.HandleFunc("/api/v1/claim", middleware.ClaimBanano(app)).Methods("POST", "OPTIONS")
-	r.HandleFunc("/api/v1/donators", middleware.GetDonators(app)).Methods("GET", "OPTIONS")
-	r.HandleFunc("/api/v1/amount", middleware.GetFaucetAmount(app)).Methods("GET", "OPTIONS")
-	r.HandleFunc("/api/v1/price", middleware.GetBananoPrice(app)).Methods("GET", "OPTIONS")
-	r.HandleFunc("/api/v1/payout", middleware.GetBasePayout(app)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/v1/claim", handlers.ClaimBanano(app)).Methods("POST", "OPTIONS")
+	r.HandleFunc("/api/v1/donators", handlers.GetDonators(app)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/v1/amount", handlers.GetFaucetAmount(app)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/v1/price", handlers.GetBananoPrice(app)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/v1/payout", handlers.GetBasePayout(app)).Methods("GET", "OPTIONS")
 	return r
 }
