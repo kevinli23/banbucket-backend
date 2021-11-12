@@ -25,5 +25,6 @@ func Get(app *app.App) *mux.Router {
 	r.HandleFunc("/api/v1/amount", handlers.GetFaucetAmount(app)).Methods("GET", "OPTIONS")
 	r.HandleFunc("/api/v1/price", handlers.GetBananoPrice(app)).Methods("GET", "OPTIONS")
 	r.HandleFunc("/api/v1/payout", handlers.GetBasePayout(app)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/api/v1/stats", handlers.GetStats(app)).Methods("GET", "OPTIONS")
 	return r
 }

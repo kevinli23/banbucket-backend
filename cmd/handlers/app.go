@@ -37,7 +37,6 @@ func GetBasePayout(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		amountFloatString, _ := strconv.ParseFloat(balance.String(), 64)
-		w.WriteHeader(http.StatusAccepted)
 
 		floatString := fmt.Sprintf("%.2f", amountFloatString*10)
 

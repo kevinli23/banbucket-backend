@@ -26,11 +26,6 @@ func SendBanano(dest string, app *app.App) (string, nano.Balance, error) {
 	destBalance, _, destRepresentative, err := GetAccountInfo(dest)
 	unopened := destBalance == "0" || err != nil || !GetYellowSpyGlassAccountOpened(dest)
 
-	// Remove later to enable transactions for unopened accounts
-	// if unopened {
-	// 	return "", nano.Balance{}, fmt.Errorf("Sorry, BanBucket is unavailable to unopened accounts due to robot monkeys!")
-	// }
-
 	app.Lock.Lock()
 
 	newBalance, frontier, amountGiven, err := GetNewBalanceAndFrontier(address.String(), dest, destRepresentative, unopened)

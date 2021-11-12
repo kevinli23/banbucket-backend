@@ -31,6 +31,7 @@ type App struct {
 	Price         float64
 	PriceChange   float64
 	NewRelicApp   *newrelic.Application
+	FBHandler     *models.FirestoreHandler
 }
 
 func Get() (*App, error) {
@@ -71,6 +72,10 @@ func Get() (*App, error) {
 		newrelic.ConfigLicense(os.Getenv("NEW_RELIC_LICENSE")),
 		newrelic.ConfigDistributedTracerEnabled(true),
 	)
+
+	firebaseHandler := &models.FirestoreHandler{}
+	firebaseHandler.New()
+
 	if err != nil {
 		return nil, err
 	}
@@ -85,6 +90,7 @@ func Get() (*App, error) {
 		FaucetRep:     rep,
 		Lock:          sync.Mutex{},
 		NewRelicApp:   nrApp,
+		FBHandler:     firebaseHandler,
 	}, nil
 }
 

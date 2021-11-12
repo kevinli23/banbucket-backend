@@ -7,6 +7,7 @@ import (
 	"banfaucetservice/pkg/exithandler"
 	"banfaucetservice/pkg/logger"
 	"banfaucetservice/pkg/server"
+	"banfaucetservice/pkg/stats"
 	"context"
 	"log"
 	"time"
@@ -14,6 +15,7 @@ import (
 	"github.com/BananoCoin/gobanano/nano"
 	"github.com/go-co-op/gocron"
 	"github.com/joho/godotenv"
+	"github.com/pkg/errors"
 )
 
 func main() {
@@ -45,6 +47,8 @@ func main() {
 	app.PriceChange = change
 	app.Amount = initBalance
 
+	stats.GetNewTransactions(context.Background(), app.FBHandler)
+
 	srv := server.
 		Get().
 		WithAddr(app.Config.GetAPIPort()).
@@ -67,6 +71,18 @@ func main() {
 		// 		logger.Info.Println("Nothing was received")
 		// 	}
 		// })
+
+		s.Every(30).Minutes().Do(func() {
+			err := stats.GetNewTransactions(context.Background(), app.FBHandler)
+			if err != nil {
+				logger.Error.Println(errors.Wrap(err, "Failed to retrieve new transactions"))
+			}
+			err = app.FBHandler.GenerateStats(context.Background(), app.MongoClient.Database("faucet").Collection("claim"))
+			if err != nil {
+				logger.Error.Println(errors.Wrap(err, "Failed to generate stats"))
+			}
+		})
+
 		s.Every(5).Minute().Do(func() {
 			price, change, err := banano.GetCoinGeckoPrice()
 			if err != nil {
@@ -76,6 +92,7 @@ func main() {
 			app.Price = price
 			app.PriceChange = change
 		})
+
 		s.StartAsync()
 	}()
 
@@ -89,6 +106,10 @@ func main() {
 		}
 
 		if err := app.MongoClient.Disconnect(context.TODO()); err != nil {
+			log.Fatal(err.Error())
+		}
+
+		if err := app.FBHandler.Client.Close(); err != nil {
 			log.Fatal(err.Error())
 		}
 	})
