@@ -46,6 +46,7 @@ type BanBucketStats struct {
 	UniqueClaims       uint32            `json:"unique_claims,omitempty"`
 	TotalSent          float32           `json:"total_sent,omitempty"`
 	DailyClaims        map[string]uint32 `json:"daily_claims,omitempty"`
+	LastUpdate         uint64            `json:"last_updated,omitempty"`
 }
 
 type FirestoreHandler struct {
@@ -158,6 +159,7 @@ func (f *FirestoreHandler) GenerateStats(ctx context.Context, collection *mongo.
 	f.CachedStats.ClaimsToday = documentCounts[today]
 	f.CachedStats.ClaimsYesterday = documentCounts[yesterday]
 	f.CachedStats.DailyClaims = documentCounts
+	f.CachedStats.LastUpdate = uint64(time.Now().Unix())
 
 	return nil
 }
