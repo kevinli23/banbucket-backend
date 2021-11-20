@@ -242,7 +242,7 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 
 			floatString := fmt.Sprintf("%.2f", amountFloatString*10)
 
-			if floatString == "0.02" {
+			if floatString == "0.01" {
 				json.NewEncoder(w).Encode(Response{Message: fmt.Sprintf("Success! %s BAN has been sent your way. Consider switching your representative away from Kalium or BananoVault to earn more!", floatString)})
 				return
 			}
