@@ -252,8 +252,13 @@ func ClaimBanano(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusBadRequest)
-		cooldown := time.Until(time.Now().Add((CLAIM_INTERVAL * time.Hour) - diff))
-		json.NewEncoder(w).Encode(Response{Message: fmt.Sprintf("Last claim too soon. Please wait %s", cooldown)})
+		cooldown := time.Until(time.Now().Add((CLAIM_INTERVAL * time.Hour) - diff)).Truncate(1 * time.Second)
+
+		hour := int32(cooldown.Seconds() / 3600)
+		min := int32((int32(cooldown.Seconds()) - (hour * 3600)) / 60)
+		seconds := int32(cooldown.Seconds()) - int32(3600*hour) - int32(60*min)
+
+		json.NewEncoder(w).Encode(Response{Message: fmt.Sprintf("Last claim too soon. Please wait %dh %dm %ds", hour, min, seconds)})
 	}
 
 }
