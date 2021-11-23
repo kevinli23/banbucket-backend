@@ -30,4 +30,4 @@ Being fast and feeless is not only a great green alternative to other cryptocurr
 
 ## Made with
 
-[![Go](https://img.shields.io/badge/--F7DF1E?logo=go&color=white](https://go.dev/)
+[![Go](https://img.shields.io/badge/--F7DF1E?logo=go&color=white)](https://go.dev/)
