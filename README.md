@@ -1,7 +1,6 @@
 # Backend Client for BanBucket
 
 [![Website banbucket.ninja](https://img.shields.io/website-up-down-green-red/https/banbucket.ninja.svg)](https://www.banbucket.ninja/)
-[![GitHub latest commit](https://badgen.net/github/last-commit/kevinli23/banbucket-backend)](https://GitHub.com/kevinli23/banbucket-backend/commit/)
 [![Apache 2.0 license](https://img.shields.io/badge/License-Apache%202.0-red.svg)](http://www.apache.org/licenses/)
 
 ## What is BanBucket?
@@ -30,4 +29,6 @@ Being fast and feeless is not only a great green alternative to other cryptocurr
 
 ## Made with
 
-[![Go](https://img.shields.io/badge/--F7DF1E?logo=go&color=white)](https://go.dev/)
+[![Go](https://img.shields.io/badge/--00ADD8?logo=go&logoColor=ffffff)](https://golang.org/)
+[![Firebase](https://img.shields.io/badge/--F7DF1E?logo=firebase&color=white)](https://firebase.google.com/)
+[![MongoDB](https://img.shields.io/badge/--F7DF1E?logo=mongodb&color=white)](https://www.mongodb.com/)
