@@ -25,6 +25,7 @@ const (
 	CUSTOM_IP_FLAG       = false
 	IP_INTEL_FLAG        = false
 	CLAIM_INTERVAL       = 15
+	XMAS_BANNER          = false
 )
 
 func GetBasePayout(app *app.App) func(w http.ResponseWriter, r *http.Request) {

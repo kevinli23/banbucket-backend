@@ -130,10 +130,10 @@ func (f *FirestoreHandler) GenerateStats(ctx context.Context, collection *mongo.
 
 	// Grab today's document
 	year, month, day := time.Now().Date()
-	today := fmt.Sprintf("%d-%2d-%2d", year, int(month), day)
+	today := fmt.Sprintf("%d-%02d-%02d", year, int(month), day)
 
 	year, month, day = time.Now().AddDate(0, 0, -1).Date()
-	yesterday := fmt.Sprintf("%d-%2d-%2d", year, int(month), day)
+	yesterday := fmt.Sprintf("%d-%02d-%02d", year, int(month), day)
 
 	allDocumentsRef := f.Client.Collection("transactions").DocumentRefs(ctx)
 
