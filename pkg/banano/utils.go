@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
-	"time"
 
 	banano "github.com/BananoCoin/gobanano/nano"
 	"github.com/BananoCoin/gobanano/nano/block"
@@ -83,12 +82,12 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 	}
 
 	// 1640476799000 is Saturday, December 25, 2021 11:59:59 PM GMT
-	if time.Now().Unix() < 1640476799000 {
-		amount, err = banano.ParseBalance(HOLIDAY, "raw")
-		if err != nil {
-			return banano.Balance{}, block.Hash{}, banano.Balance{}, err
-		}
-	}
+	// if time.Now().Unix() < 1640476799000 {
+	// 	amount, err = banano.ParseBalance(HOLIDAY, "raw")
+	// 	if err != nil {
+	// 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
+	// 	}
+	// }
 
 	if unopened {
 		amount, err = banano.ParseBalance(SUPER_REDUCED, "raw")
