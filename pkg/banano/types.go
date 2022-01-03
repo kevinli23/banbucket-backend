@@ -1,16 +1,16 @@
 package banano
 
+type AccountHistory struct {
+	Type           string `json:"type"`
+	Amount         string `json:"amount"`
+	LocalTimestamp string `json:"local_timestamp"`
+	Hash           string `json:"hash"`
+}
+
 type AccountHistoryResponse struct {
-	Account string `json:"account"`
-	History []struct {
-		Type           string `json:"type"`
-		Account        string `json:"account"`
-		Amount         string `json:"amount"`
-		LocalTimestamp string `json:"local_timestamp"`
-		Height         string `json:"height"`
-		Hash           string `json:"hash"`
-	} `json:"history"`
-	Previous string `json:"previous"`
+	Account  string           `json:"account"`
+	History  []AccountHistory `json:"history"`
+	Previous string           `json:"previous"`
 }
 
 type AccountInfo struct {
@@ -86,6 +86,13 @@ type AccountsPendingBlock struct {
 
 type AccountsPendingResponse struct {
 	Blocks AccountsPendingBlock `json:"blocks"`
+}
+
+type AccountHistoryRequest struct {
+	Action        string   `json:"action"`
+	Account       string   `json:"account"`
+	AccountFilter []string `json:"account_filter"`
+	Count         int      `json:"count"`
 }
 
 type BlockInfoRequest struct {

@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/BananoCoin/gobanano/nano"
+	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 )
 
@@ -62,6 +63,35 @@ func GetFaucetAmount(app *app.App) func(w http.ResponseWriter, r *http.Request) 
 		w.WriteHeader(http.StatusOK)
 		f, _ := strconv.ParseFloat(app.Amount.String(), 64)
 		json.NewEncoder(w).Encode(Response{Message: fmt.Sprintf("%.2f", f*10)})
+	}
+}
+
+func GetAccountClaimHistory(app *app.App) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		addr, found := mux.Vars(r)["addr"]
+		if !found {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(Response{Message: "Not a valid addr query param"})
+			return
+		}
+
+		history, err := banano.GetAccountHistory(addr, []string{"ban_1j3rqseffoin7x5z5y1ehaqe1n7todza41kdf4oyga8phps3ea31u39ruchu"}, 15)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(Response{Message: errors.Wrapf(err, "Failed to get claim history for %s", addr).Error()})
+			return
+		}
+
+		var filteredHistory []banano.AccountHistory
+
+		for _, hist := range history {
+			if hist.Type == "receive" {
+				filteredHistory = append(filteredHistory, hist)
+			}
+		}
+
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(filteredHistory)
 	}
 }
 

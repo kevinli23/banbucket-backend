@@ -110,7 +110,6 @@ func BananoFaucetSend(block block.StateBlock) (string, error) {
 }
 
 func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error) {
-
 	requestBody, _ := json.Marshal(SendRequest{
 		Action:    "process",
 		JsonBlock: "true",
@@ -158,6 +157,38 @@ func BananoFaucetProcess(sBlock block.StateBlock, subtype string) (string, error
 	}
 
 	return res.Hash, nil
+}
+
+func GetAccountHistory(addr string, filter []string, count int) ([]AccountHistory, error) {
+	requestBody, _ := json.Marshal(AccountHistoryRequest{
+		Action:        "account_history",
+		Account:       addr,
+		Count:         count,
+		AccountFilter: filter,
+	})
+
+	response, err := http.Post(API_URL, "application/json", bytes.NewBuffer(requestBody))
+	if err != nil {
+		return nil, err
+	}
+
+	defer response.Body.Close()
+
+	responseBodyBytes, err := ioutil.ReadAll(response.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer response.Body.Close()
+
+	var res AccountHistoryResponse
+
+	if err := json.Unmarshal(responseBodyBytes, &res); err != nil {
+		return nil, err
+	}
+
+	return res.History, nil
 }
 
 func GetAccountInfo(addr string) (string, string, string, error) {
