@@ -72,7 +72,7 @@ func main() {
 		// 	}
 		// })
 
-		s.Every(5).Minutes().Do(func() {
+		s.Every(120).Minutes().Do(func() {
 			err := stats.GetNewTransactions(context.Background(), app.FBHandler)
 			if err != nil {
 				logger.Error.Println(errors.Wrap(err, "Failed to retrieve new transactions"))
