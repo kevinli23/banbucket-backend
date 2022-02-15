@@ -3,7 +3,6 @@ package banano
 import (
 	"banfaucetservice/pkg/app"
 	"banfaucetservice/pkg/logger"
-	"strconv"
 
 	"github.com/BananoCoin/gobanano/nano"
 	"github.com/BananoCoin/gobanano/nano/block"
@@ -123,12 +122,12 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 		return "", err
 	}
 
-	newBalance, amountReceived, donator, err := ReceiveNewAmount(hash, parsedBalance)
+	newBalance, _, _, err := ReceiveNewAmount(hash, parsedBalance)
 	if err != nil {
 		return "", err
 	}
 
-	work, _ := BananoGenerateWork(parsedFrontier.String())
+	// work, _ := BananoGenerateWork(parsedFrontier.String())
 
 	receiveBlock := block.StateBlock{
 		Address:        address,
@@ -136,7 +135,7 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 		Balance:        newBalance,
 		PreviousHash:   parsedFrontier,
 		Link:           *blochHash,
-		Work:           block.Work(work),
+		// Work:           block.Work(work),
 	}
 
 	receiveBlock.Signature = account.Sign(receiveBlock.Hash())
@@ -146,11 +145,11 @@ func ReceiveBananoFromSpecificHash(addr string, hash string, app *app.App) (stri
 		return "", err
 	}
 
-	amountReceivedFloat, _ := strconv.ParseFloat(amountReceived, 64)
-	err = app.ProcessBananoReceive(donator, amountReceivedFloat*10)
-	if err != nil {
-		logger.Error.Printf("Failed To Cache Donators: %v\n", err)
-	}
+	// amountReceivedFloat, _ := strconv.ParseFloat(amountReceived, 64)
+	// err = app.ProcessBananoReceive(donator, amountReceivedFloat*10)
+	// if err != nil {
+	// 	logger.Error.Printf("Failed To Cache Donators: %v\n", err)
+	// }
 
 	app.Lock.Unlock()
 

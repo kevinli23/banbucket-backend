@@ -65,12 +65,12 @@ func main() {
 
 	go func() {
 		s := gocron.NewScheduler(time.UTC)
-		// s.Every(1).Hour().Do(func() {
-		// 	err := banano.ReceiveBanano(app.Config.GetFaucetAddress(), app)
-		// 	if err != nil {
-		// 		logger.Info.Println("Nothing was received")
-		// 	}
-		// })
+		s.Every(1).Hour().Do(func() {
+			err := banano.ReceiveBanano(app.Config.GetFaucetAddress(), app)
+			if err != nil {
+				logger.Info.Println("Nothing was received")
+			}
+		})
 
 		s.Every(120).Minutes().Do(func() {
 			err := stats.GetNewTransactions(context.Background(), app.FBHandler)
