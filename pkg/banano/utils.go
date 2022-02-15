@@ -1,12 +1,10 @@
 package banano
 
 import (
-	"banfaucetservice/pkg/logger"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"math/rand"
 	"net/http"
 
 	banano "github.com/BananoCoin/gobanano/nano"
@@ -39,13 +37,13 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
 	}
 
-	isSpecialRepresentative := false
-	for _, rep := range specialRepresentatives {
-		if destRepresentative == rep {
-			isSpecialRepresentative = true
-			break
-		}
-	}
+	// isSpecialRepresentative := false
+	// for _, rep := range specialRepresentatives {
+	// 	if destRepresentative == rep {
+	// 		isSpecialRepresentative = true
+	// 		break
+	// 	}
+	// }
 
 	// 28 characters is 0.01 - 0.09
 	if len(balance) <= 28 {
@@ -63,14 +61,14 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
 	}
 
-	if isSpecialRepresentative {
-		roll := rand.Intn(10)
-		logger.Info.Printf("%s has a special representative and rolled %d\n", dest, roll)
+	// if isSpecialRepresentative {
+	// 	roll := rand.Intn(10)
+	// 	logger.Info.Printf("%s has a special representative and rolled %d\n", dest, roll)
 
-		if roll <= 2 {
-			amount = amount.Add(amount)
-		}
-	}
+	// 	if roll <= 2 {
+	// 		amount = amount.Add(amount)
+	// 	}
+	// }
 
 	for _, rep := range badRepresentatives {
 		if rep == destRepresentative {
