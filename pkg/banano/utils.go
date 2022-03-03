@@ -70,14 +70,14 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 	// 	}
 	// }
 
-	for _, rep := range badRepresentatives {
-		if rep == destRepresentative {
-			amount, err = banano.ParseBalance(REDUCED_AMOUNT, "raw")
-			if err != nil {
-				return banano.Balance{}, block.Hash{}, banano.Balance{}, err
-			}
-		}
-	}
+	// for _, rep := range badRepresentatives {
+	// 	if rep == destRepresentative {
+	// 		amount, err = banano.ParseBalance(REDUCED_AMOUNT, "raw")
+	// 		if err != nil {
+	// 			return banano.Balance{}, block.Hash{}, banano.Balance{}, err
+	// 		}
+	// 	}
+	// }
 
 	// 1640476799000 is Saturday, December 25, 2021 11:59:59 PM GMT
 	// if time.Now().Unix() < 1640476799000 {
