@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	banano "github.com/BananoCoin/gobanano/nano"
 	"github.com/BananoCoin/gobanano/nano/block"
@@ -15,6 +16,7 @@ import (
 // 3000000000000000000000000000 - 0.03
 // 19000000000000000000000000000 - 0.19
 const HOLIDAY = "19000000000000000000000000000"
+const SPECIAL = "6000000000000000000000000000"
 const AMOUNT_TO_SEND = "3000000000000000000000000000"
 const REDUCED_AMOUNT = "1000000000000000000000000000"
 const SUPER_REDUCED = "100000000000000000000000000"
@@ -79,13 +81,12 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 	// 	}
 	// }
 
-	// 1640476799000 is Saturday, December 25, 2021 11:59:59 PM GMT
-	// if time.Now().Unix() < 1640476799000 {
-	// 	amount, err = banano.ParseBalance(HOLIDAY, "raw")
-	// 	if err != nil {
-	// 		return banano.Balance{}, block.Hash{}, banano.Balance{}, err
-	// 	}
-	// }
+	if time.Now().Unix() < 1646611199 {
+		amount, err = banano.ParseBalance(SPECIAL, "raw")
+		if err != nil {
+			return banano.Balance{}, block.Hash{}, banano.Balance{}, err
+		}
+	}
 
 	if unopened {
 		amount, err = banano.ParseBalance(SUPER_REDUCED, "raw")

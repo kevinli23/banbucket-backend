@@ -33,6 +33,11 @@ func GetBasePayout(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		balance, err := nano.ParseBalance(banano.AMOUNT_TO_SEND, "raw")
+
+		if time.Now().Unix() < 1646611199 {
+			balance, err = nano.ParseBalance(banano.SPECIAL, "raw")
+		}
+
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			json.NewEncoder(w).Encode(Response{Message: errors.Wrapf(err, "Failed to compute base payout").Error()})
