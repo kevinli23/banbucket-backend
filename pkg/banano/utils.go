@@ -16,7 +16,7 @@ import (
 // 3000000000000000000000000000 - 0.03
 // 19000000000000000000000000000 - 0.19
 const HOLIDAY = "19000000000000000000000000000"
-const SPECIAL = "6000000000000000000000000000"
+const SPECIAL = "9000000000000000000000000000"
 const AMOUNT_TO_SEND = "3000000000000000000000000000"
 const REDUCED_AMOUNT = "1000000000000000000000000000"
 const SUPER_REDUCED = "100000000000000000000000000"
@@ -81,7 +81,7 @@ func GetNewBalanceAndFrontier(addr string, dest string, destRepresentative strin
 	// 	}
 	// }
 
-	if time.Now().Unix() < 1646611199 {
+	if time.Now().Unix() < 1647216000 {
 		amount, err = banano.ParseBalance(SPECIAL, "raw")
 		if err != nil {
 			return banano.Balance{}, block.Hash{}, banano.Balance{}, err

@@ -34,7 +34,7 @@ func GetBasePayout(app *app.App) func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		balance, err := nano.ParseBalance(banano.AMOUNT_TO_SEND, "raw")
 
-		if time.Now().Unix() < 1646611199 {
+		if time.Now().Unix() < 1647216000 {
 			balance, err = nano.ParseBalance(banano.SPECIAL, "raw")
 		}
 
