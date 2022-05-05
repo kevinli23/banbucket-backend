@@ -1,8 +1,9 @@
 # Backend Client for BanBucket
 
 [![Website banbucket.ninja](https://img.shields.io/website-up-down-green-red/https/banbucket.ninja.svg)](https://www.banbucket.ninja/)
+[![Total Claims](https://badgen.net/https/banbucket-infoservice.vercel.app/api/totalclaims)](https://www.banbucket.ninja/#/stats)
+[![Unique Claims](https://badgen.net/https/banbucket-infoservice.vercel.app/api/uniqueclaims)](https://www.banbucket.ninja/#/stats)
 [![Latest commit](https://badgen.net/github/last-commit/kevinli23/banbucket-backend/main)](https://GitHub.com/kevinli23/banbucket-backend/commit/)
-[![Apache 2.0 license](https://img.shields.io/badge/License-Apache%202.0-red.svg)](http://www.apache.org/licenses/)
 
 ## What is BanBucket?
 
