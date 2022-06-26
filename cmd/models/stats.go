@@ -28,7 +28,7 @@ type YellowGlassTransactionsResponse struct {
 	Hash       string `json:"hash"`
 	Address    string `json:"address"`
 	Type       string `json:"type"`
-	BalanceRaw string `json:"balanceRaw"`
+	BalanceRaw string `json:"amountRaw"`
 	Height     uint32 `json:"height"`
 	Timestamp  uint32 `json:"timestamp"`
 }

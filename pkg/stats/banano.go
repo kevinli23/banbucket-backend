@@ -3,6 +3,7 @@ package stats
 import (
 	"banfaucetservice/cmd/models"
 	"banfaucetservice/pkg/logger"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -15,8 +16,19 @@ import (
 )
 
 func GetYellowGlassTransactions(offset uint32) ([]models.YellowGlassTransactionsResponse, error) {
-	url := fmt.Sprintf("https://api.yellowspyglass.com/yellowspyglass/confirmed-transactions?address=ban_1j3rqseffoin7x5z5y1ehaqe1n7todza41kdf4oyga8phps3ea31u39ruchu&offset=%d&size=50", offset)
-	resp, err := http.Get(url)
+	url := "https://api.spyglass.pw/banano/v2/account/confirmed-transactions/"
+	requestBody := map[string]interface{}{
+		"address": "ban_1j3rqseffoin7x5z5y1ehaqe1n7todza41kdf4oyga8phps3ea31u39ruchu",
+		"size":    50,
+		"offset":  offset,
+	}
+
+	bodyJson, err := json.Marshal(requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(bodyJson))
 	if err != nil {
 		return nil, err
 	}
